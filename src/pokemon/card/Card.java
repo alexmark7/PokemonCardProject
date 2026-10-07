@@ -22,7 +22,7 @@ public class Card {
 
     private String imagePath;
 
-    public Card(String id, String name, String number, String setId, String setName, String series, String category, Integer hp, String types, String evolutionStage, Integer retreatCost, String rarity, String illustrator, String imagePath) {
+    public Card(String id, String name, String number, String setId, String setName, String series, String category, Integer hp, String types, String evolutionStage, Integer retreatCost, String rarity, String imagePath) {
         this.id = id;
         this.name = name;
         this.number = number;
