@@ -1,5 +1,7 @@
 package pokemon.card;
 
+
+//Creates a new Card object with all of its identifying details.
 public class Card {
 
     private String id;
@@ -19,7 +21,6 @@ public class Card {
     private String rarity;
 
     private String imagePath;
-
 
     public Card(String id, String name, String number, String setId, String setName, String series, String category, Integer hp, String types, String evolutionStage, Integer retreatCost, String rarity, String illustrator, String imagePath) {
         this.id = id;
