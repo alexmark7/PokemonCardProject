@@ -1,6 +1,5 @@
 package pokemon.card;
 
-
 //Creates a new Card object with all of its identifying details.
 public class Card {
 
