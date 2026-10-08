@@ -1,7 +1,7 @@
 package pokemon.card;
 
 //Creates a new Card object with all of its identifying details.
-public class Card {
+public class CardDetails {
 
     private String id;
     private String name;
@@ -18,10 +18,10 @@ public class Card {
     private String evolutionStage;
     private Integer retreatCost;
     private String rarity;
-
+    private String variants;
     private String imagePath;
 
-    public Card(
+    public CardDetails(
             String id,
             String name,
             String number,
@@ -34,6 +34,7 @@ public class Card {
             String evolutionStage,
             Integer retreatCost,
             String rarity,
+            String variants,
             String imagePath)
     {
         this.id = id;
@@ -48,6 +49,7 @@ public class Card {
         this.evolutionStage = evolutionStage;
         this.retreatCost = retreatCost;
         this.rarity = rarity;
+        this.variants = variants;
         this.imagePath = imagePath;
     }
 
@@ -99,9 +101,30 @@ public class Card {
         return rarity;
     }
 
+    public String getVariants() {
+        return variants;
+    }
+
 
     public String getImagePath() {
         return imagePath;
+    }
+
+    public String getFullDetails() {
+        return "ID:              " + id + "\n"
+                + "Name:            " + name + "\n"
+                + "Number:          " + number + "\n"
+                + "Set ID:          " + setId + "\n"
+                + "Set name:        " + setName + "\n"
+                + "Series:          " + series + "\n"
+                + "Category:        " + category + "\n"
+                + "HP:              " + hp + "\n"
+                + "Types:           " + types + "\n"
+                + "Evolution stage: " + evolutionStage + "\n"
+                + "Retreat cost:    " + retreatCost + "\n"
+                + "Rarity:          " + rarity + "\n"
+                + "Variants:        " + variants + "\n"
+                + "Image path:      " + imagePath;
     }
 
     @Override
