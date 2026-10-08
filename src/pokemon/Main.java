@@ -31,8 +31,7 @@ public class Main {
         IO.println(card);
         IO.println();
 
-        // Tests cards.csv import.
-        // Reads data/cards.csv and stores all cards in the catalogue
+        // Load the cards from the CSV into the catalogue
         CardCatalogue catalogue = CardFileReader.load("data/cards.csv");
         IO.println("Loaded " + catalogue.size() + " cards.");
 

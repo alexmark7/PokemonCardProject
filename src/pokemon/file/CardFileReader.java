@@ -9,19 +9,17 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-// Reads cards.csv and turns each row into a CardDetails object
-// Called from Main, returns a filled CardCatalogue
+// Loads cards from a CSV file into a catalogue
 public class CardFileReader {
 
-    // Entry point: reads <filePath> and returns the catalogue
+    // Main calls this to load the cards
     public static CardCatalogue load(String filePath) {
 
-        // Empty container we fill up row by row
         CardCatalogue catalogue = new CardCatalogue();
 
         try {
 
-            // Read the whole file, one String per line
+            // Read each line of the CSV
             List<String> lines = Files.readAllLines(Paths.get(filePath)
             );
 
@@ -31,7 +29,7 @@ public class CardFileReader {
                 return catalogue;
             }
 
-            // Counts rows we reject
+            // Keep track of any rows we skip
             int skippedRows = 0;
 
             // Start at index 1 to skip the header
@@ -44,10 +42,10 @@ public class CardFileReader {
                     continue;
                 }
 
-                // Split the row into fields via parseCsvLine()
+                // Split this row into its fields
                 List<String> values = parseCsvLine(line);
 
-                // Need at least the 14 fields we use, extra columns ignored
+                // We need 14 fields; the illustrator column is ignored
                 if (values.size() < 14) {
                     IO.println("Invalid CSV at row " + (i + 1) + ": Expected 14 fields, found " + values.size());
                     skippedRows++;
@@ -61,49 +59,49 @@ public class CardFileReader {
                     continue;
                 }
 
-                // Create a CardDetails object from the CSV row
+                // Make a card from this row
                 CardDetails card = new CardDetails(
-                        values.get(0),                                                                  // ID
-                        values.get(1),                                                                  // Name
-                        values.get(2),                                                                  // Number
-                        values.get(3),                                                                  // Set ID
-                        values.get(4),                                                                  // Set name
-                        values.get(5),                                                                  // Series
-                        values.get(6),                                                                  // Category
-                        parseNullableInteger(values.get(7), "HP", i + 1),              // HP
-                        values.get(8),                                                                  // Types
-                        values.get(9),                                                                  // Evolution stage
-                        parseNullableInteger(values.get(10), "Retreat cost", i + 1),    // Retreat cost
-                        values.get(11),                                                                 // Rarity
-                        values.get(12),                                                                 // Variants
-                        values.get(13)                                                                  // Image path
+                        values.get(0),                                                                       // ID
+                        values.get(1),                                                                       // Name
+                        values.get(2),                                                                       // Number
+                        values.get(3),                                                                       // Set ID
+                        values.get(4),                                                                       // Set name
+                        values.get(5),                                                                       // Series
+                        values.get(6),                                                                       // Category
+                        parseNullableInteger(values.get(7), "HP", i + 1),                 // HP
+                        values.get(8),                                                                       // Types
+                        values.get(9),                                                                       // Evolution stage
+                        parseNullableInteger(values.get(10), "Retreat cost", i + 1),      // Retreat cost
+                        values.get(11),                                                                      // Rarity
+                        values.get(12),                                                                      // Variants
+                        values.get(13)                                                                       // Image path
                         // values.get(14) = illustrator, not loaded yet
                 );
-                // Add the card to the catalogue
+                // Save it in the catalogue
                 catalogue.addCard(card);
             }
 
-            // Report rejected rows
+            // Show how many rows were skipped
             if (skippedRows > 0) {
                 IO.println("Skipped " + skippedRows + " invalid rows.");
             }
 
         } catch (IOException e) {
 
-            // File missing or unreadable, print error and keep going
+            // Show an error if the file couldn't be read
             IO.println("Error reading CSV file: " + e.getMessage());
         }
 
         return catalogue;
     }
 
-    // Converts a String to an Integer, returns null if empty or invalid
+    // Turns HP or retreat cost into a number, or null if it can't
     private static Integer parseNullableInteger(
             String value,
             String fieldName,
             int rowNumber) {
 
-        // Empty cell -> null
+        // Blank cells have no number
         if (value == null || value.isBlank()) {
             return null;
         }
@@ -112,7 +110,7 @@ public class CardFileReader {
             return Integer.parseInt(value.trim());
 
         } catch (NumberFormatException e) {
-            // Not a number -> warn, but don't crash the load
+            // Bad number? Show which row it came from
             IO.println("Invalid " + fieldName
                     + " at row " + rowNumber
                     + ": " + e.getMessage());
@@ -120,47 +118,42 @@ public class CardFileReader {
         }
     }
 
-    // Splits one CSV line into fields, handling quoted commas
+    // Splits a CSV row without splitting commas inside quotes
     private static List<String> parseCsvLine(String line) {
 
-        // Finished fields of this row
         List<String> values = new ArrayList<>();
 
-        // Field currently being built
         StringBuilder current = new StringBuilder();
 
-        // True while between two " marks
+        // Keep track of whether we're inside quotes
         boolean insideQuotes = false;
 
-        // Go through the line character by character
         for (int i = 0; i < line.length(); i++) {
 
             char character = line.charAt(i);
 
             if (character == '"') {
 
-                // Handle escaped quotation marks
+                // Two quotes together mean one actual quote
                 if (insideQuotes && i + 1 < line.length() && line.charAt(i + 1) == '"') {
                     current.append('"');
                     i++;
                 } else {
-                    // Opening or closing quote
                     insideQuotes = !insideQuotes;
                 }
 
             } else if (character == ',' && !insideQuotes) {
 
-                // Comma outside quotes = end of field
+                // Only split at commas outside quotes
                 values.add(current.toString());
                 current.setLength(0);
 
             } else {
-                // Regular character, or comma inside quotes
                 current.append(character);
             }
         }
 
-        // Add the final value
+        // Add the last field too
         values.add(current.toString());
 
         return values;

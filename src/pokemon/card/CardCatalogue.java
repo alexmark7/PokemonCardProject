@@ -2,7 +2,7 @@ package pokemon.card;
 
 import java.util.ArrayList;
 
-// Card collection with add/list/count
+// Holds all the cards we loaded
 public class CardCatalogue {
 
     private ArrayList<CardDetails> cards;

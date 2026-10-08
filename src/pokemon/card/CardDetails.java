@@ -1,6 +1,6 @@
 package pokemon.card;
 
-//Creates a new Card object with all of its identifying details.
+// Holds the details for one card
 public class CardDetails {
 
     private String id;
@@ -132,4 +132,3 @@ public class CardDetails {
         return name + " #" + number + " - " + setName;
     }
 }
-
