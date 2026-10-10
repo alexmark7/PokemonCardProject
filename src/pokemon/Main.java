@@ -4,13 +4,14 @@ import pokemon.card.CardDetails;
 import pokemon.card.CardCatalogue;
 import pokemon.file.CardFileReader;
 
+import java.util.ArrayList;
 
 public class Main {
 
     public static void main(String[] args) {
 
         // Tests CardDetails
-        CardDetails card = new CardDetails(
+        CardDetails singleCard = new CardDetails(
                 "base1-4",
                 "Charizard",
                 "4",
@@ -27,8 +28,8 @@ public class Main {
                 "images/base1-4.png"
         );
 
-        IO.println(card.getFullDetails());
-        IO.println(card);
+        IO.println(singleCard.getFullDetails());
+        IO.println(singleCard);
         IO.println();
 
         // Load the cards from the CSV into the catalogue
@@ -64,6 +65,12 @@ public class Main {
             IO.println("------------------------------------------------");
 
             IO.println();
+
+            ArrayList<CardDetails> results = catalogue.findByName(IO.readln("Enter Name: "));
+
+            for (CardDetails card : results) {
+                IO.println(card);
+            }
         }
     }
 

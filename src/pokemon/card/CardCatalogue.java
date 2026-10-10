@@ -7,19 +7,35 @@ public class CardCatalogue {
 
     private ArrayList<CardDetails> cards;
 
-    public CardCatalogue(){
+    public CardCatalogue() {
         cards = new ArrayList<>();
     }
+
     public void addCard(CardDetails card) {
         cards.add(card);
     }
-    public ArrayList<CardDetails> getCards(){
+
+    public ArrayList<CardDetails> getCards() {
         return cards;
     }
+
     public int size() {
         return cards.size();
     }
 
     //search sort etc, to be added here
+
+    public ArrayList<CardDetails> findByName(String search) {
+
+        ArrayList<CardDetails> results = new ArrayList<>();
+
+        for (CardDetails card : cards) {
+
+            if (card.getName().toLowerCase().contains(search.toLowerCase())){
+                results.add(card);
+            }
+        }
+        return results;
+    }
 
 }
