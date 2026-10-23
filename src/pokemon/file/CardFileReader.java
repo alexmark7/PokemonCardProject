@@ -2,6 +2,9 @@ package pokemon.file;
 
 import pokemon.card.CardDetails;
 import pokemon.card.CardCatalogue;
+import pokemon.card.Category;
+import pokemon.card.EvolutionStage;
+import pokemon.card.PokemonType;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -62,19 +65,19 @@ public class CardFileReader {
                 // Make a card from this row
                 CardDetails card = new CardDetails(
                         values.get(0),                                                                       // ID
-                        values.get(1),                                                                       // Name
-                        values.get(2),                                                                       // Number
-                        values.get(3),                                                                       // Set ID
-                        values.get(4),                                                                       // Set name
-                        values.get(5),                                                                       // Series
-                        values.get(6),                                                                       // Category
+                        values.get(1),                                                                           // Name
+                        values.get(2),                                                                          // Number
+                        values.get(3),                                                                           // Set ID
+                        values.get(4),                                                                           // Set name
+                        values.get(5),                                                                           // Series
+                        Category.parse(values.get(6)),                                                           // Category
                         parseNullableInteger(values.get(7), "HP", i + 1),                 // HP
-                        values.get(8),                                                                       // Types
-                        values.get(9),                                                                       // Evolution stage
+                        PokemonType.parseList(values.get(8)),                                                    // Types
+                        EvolutionStage.parse(values.get(9)),                                                       // Evolution stage
                         parseNullableInteger(values.get(10), "Retreat cost", i + 1),      // Retreat cost
-                        values.get(11),                                                                      // Rarity
-                        values.get(12),                                                                      // Variants
-                        values.get(13)                                                                       // Image path
+                        values.get(11),                                                                         // Rarity
+                        values.get(12),                                                                        // Variants
+                        values.get(13)                                                                        // Image path
                         // values.get(14) = illustrator, not loaded yet
                 );
                 // Save it in the catalogue

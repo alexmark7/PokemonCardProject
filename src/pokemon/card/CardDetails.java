@@ -1,5 +1,7 @@
 package pokemon.card;
 
+import java.util.ArrayList;
+
 // Holds the details for one card
 public class CardDetails {
 
@@ -11,14 +13,16 @@ public class CardDetails {
     private String setName;
     private String series;
 
-    private String category;
+    private Category category;
 
     private Integer hp;
-    private String types;
-    private String evolutionStage;
+    private ArrayList<PokemonType> types;
+    private EvolutionStage evolutionStage;
     private Integer retreatCost;
     private String rarity;
+
     private String variants;
+
     private String imagePath;
 
     public CardDetails(
@@ -28,10 +32,10 @@ public class CardDetails {
             String setId,
             String setName,
             String series,
-            String category,
+            Category category,
             Integer hp,
-            String types,
-            String evolutionStage,
+            ArrayList<PokemonType> types,
+            EvolutionStage evolutionStage,
             Integer retreatCost,
             String rarity,
             String variants,
@@ -77,7 +81,7 @@ public class CardDetails {
         return series;
     }
 
-    public String getCategory() {
+    public Category getCategory() {
         return category;
     }
 
@@ -85,11 +89,28 @@ public class CardDetails {
         return hp;
     }
 
-    public String getTypes() {
+    public ArrayList<PokemonType> getTypes() {
         return types;
     }
 
-    public String getEvolutionStage() {
+    // Joins the type names for display, like "Fire, Water"
+    public String getTypesText() {
+
+        String text = "";
+
+        for (PokemonType type : types) {
+
+            if (!text.isEmpty()) {
+                text += ", ";
+            }
+
+            text += type;
+        }
+
+        return text;
+    }
+
+    public EvolutionStage getEvolutionStage() {
         return evolutionStage;
     }
 
@@ -119,7 +140,7 @@ public class CardDetails {
                 + "Series:          " + series + "\n"
                 + "Category:        " + category + "\n"
                 + "HP:              " + hp + "\n"
-                + "Types:           " + types + "\n"
+                + "Types:           " + getTypesText() + "\n"
                 + "Evolution stage: " + evolutionStage + "\n"
                 + "Retreat cost:    " + retreatCost + "\n"
                 + "Rarity:          " + rarity + "\n"
