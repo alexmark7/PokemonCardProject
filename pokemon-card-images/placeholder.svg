@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="420" viewBox="0 0 300 420" role="img" aria-labelledby="title description">
+    <title id="title">Pokémon card image unavailable</title>
+    <desc id="description">A yellow-bordered placeholder card with a Poké Ball illustration and an image unavailable message.</desc>
+    <defs>
+        <linearGradient id="cardBackground" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#fff9db"/>
+            <stop offset="1" stop-color="#e6d6a3"/>
+        </linearGradient>
+        <radialGradient id="artBackground">
+            <stop offset="0" stop-color="#e0f4fa"/>
+            <stop offset="1" stop-color="#6b9db7"/>
+        </radialGradient>
+    </defs>
+
+    <!-- Yellow border and cream-colored card surface. -->
+    <rect x="3" y="3" width="294" height="414" rx="18" fill="#f3ca35" stroke="#c29920" stroke-width="2"/>
+    <rect x="15" y="15" width="270" height="390" rx="9" fill="url(#cardBackground)" stroke="#bba567"/>
+
+    <!-- Header and illustration window follow a trading-card layout. -->
+    <g font-family="Arial, sans-serif" fill="#343b42">
+        <rect x="26" y="27" width="48" height="16" rx="8" fill="#e5d394"/>
+        <text x="50" y="39" text-anchor="middle" font-size="9" font-weight="bold">BASIC</text>
+        <text x="27" y="65" font-size="22" font-weight="bold">Unknown Card</text>
+        <text x="270" y="39" text-anchor="end" font-size="11">HP —</text>
+    </g>
+
+    <rect x="27" y="79" width="246" height="180" rx="3" fill="url(#artBackground)" stroke="#a78c45" stroke-width="4"/>
+    <circle cx="150" cy="168" r="70" fill="#ffffff" opacity="0.15"/>
+    <circle cx="150" cy="168" r="59" fill="#ffffff" opacity="0.18"/>
+    <ellipse cx="150" cy="226" rx="45" ry="7" fill="#284e66" opacity="0.2"/>
+
+    <!-- Poké Ball: red upper half, white lower half, dark band and button. -->
+    <circle cx="150" cy="168" r="43" fill="#f8fafc"/>
+    <path d="M107 168 A43 43 0 0 1 193 168 Z" fill="#db5454"/>
+    <circle cx="150" cy="168" r="43" fill="none" stroke="#344556" stroke-width="5"/>
+    <path d="M107 168 H193" stroke="#344556" stroke-width="6"/>
+    <circle cx="150" cy="168" r="14" fill="#f8fafc" stroke="#344556" stroke-width="5"/>
+    <circle cx="150" cy="168" r="6" fill="#dbe6ed"/>
+    <path d="M122 145 Q130 134 141 133" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" opacity="0.65"/>
+
+    <g font-family="Arial, sans-serif" text-anchor="middle" fill="#343b42">
+        <text x="150" y="283" font-size="10" font-style="italic">Pokémon card catalogue</text>
+        <path d="M32 294 H268" stroke="#bba567"/>
+        <text x="150" y="325" font-size="20" font-weight="bold">Image unavailable</text>
+        <text x="150" y="347" font-size="12">This card has no image yet.</text>
+        <path d="M32 366 H268" stroke="#bba567"/>
+        <text x="150" y="389" font-size="10" letter-spacing="2">PLACEHOLDER · ★</text>
+    </g>
+</svg>

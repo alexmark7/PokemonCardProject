@@ -15,8 +15,10 @@ public class CardCatalogue {
         cards.add(card);
     }
 
-    public ArrayList<CardDetails> getCards() {  //return all the cards, used previously for testing.
-        return cards;
+    public ArrayList<CardDetails> getCards() {
+        // Return a copy so adding or removing cards from it does not change the catalogue.
+        // The copy contains the same CardDetails objects; only the list itself is copied.
+        return new ArrayList<>(cards);
     }
 
     public int size() {

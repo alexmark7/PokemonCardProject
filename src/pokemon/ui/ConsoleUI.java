@@ -15,6 +15,7 @@ public class ConsoleUI {
         this.catalogue = catalogue;
     }
 
+    // Shows the main menu until the user chooses to exit.
     public void start() {
 
         while (true) {
@@ -27,7 +28,7 @@ public class ConsoleUI {
             IO.println("2. Browse by expansion");
             IO.println("0. Exit");
 
-            String choice = IO.readln("Choose (or type a name): ");
+            String choice = IO.readln("Choose (or type a name): ").trim();
 
             switch (choice) {
 
@@ -41,11 +42,12 @@ public class ConsoleUI {
                 }
 
                 // Anything else is treated as a name search
-                default -> showSearchResults(choice.trim()); // Brings choice value into showSearchResults method
+                default -> showSearchResults(choice);
             }
         }
     }
 
+    // Asks for a card name and displays matching cards.
     private void searchByName() {
 
         String search = IO.readln("Enter name: ").trim();
@@ -66,6 +68,7 @@ public class ConsoleUI {
         displayResults(results);
     }
 
+    // Shows matching cards in pages and lets the user select a card to view its details.
     private void displayResults(List<CardDetails> results) {
 
         if (results.isEmpty()) {
@@ -77,6 +80,7 @@ public class ConsoleUI {
         int pageSize = 10;
         int currentPage = 0;
 
+        // Round up so a partially filled page also counts as a page.
         int totalPages = (results.size() + pageSize - 1) / pageSize;
 
         while (true) {
@@ -144,7 +148,7 @@ public class ConsoleUI {
                 continue;
             }
 
-            // Return to main menu
+            // Return to the menu that opened these results.
             if (choice == 0) {
                 return;
             }
@@ -155,7 +159,7 @@ public class ConsoleUI {
                 continue;
             }
 
-            // Select card from search results
+            // Displayed numbers start at 1, but list indexes start at 0.
             CardDetails selected = results.get(choice - 1);
 
             showCardDetails(selected);
@@ -164,8 +168,10 @@ public class ConsoleUI {
         }
     }
 
+    // Lets the user browse or search expansions, then view cards in a selected set.
     private void browseByExpansion() {
 
+        // Keep the full list so each search includes all expansions, even after filtering.
         List<Expansion> allExpansions = catalogue.getExpansions();
         List<Expansion> expansions = allExpansions;
 
@@ -175,6 +181,7 @@ public class ConsoleUI {
         // Keep showing the expansion list until the user goes back
         while (true) {
 
+            // Round up so a partially filled page also counts as a page.
             int totalPages = (expansions.size() + pageSize - 1) / pageSize;
 
             int start = currentPage * pageSize;
@@ -270,7 +277,7 @@ public class ConsoleUI {
                 continue;
             }
 
-            // Show the cards of the picked expansion
+            // Displayed numbers start at 1, but list indexes start at 0.
             Expansion selected = expansions.get(choice - 1);
 
             List<CardDetails> results = catalogue.findByExpansion(selected.getId());
@@ -294,6 +301,7 @@ public class ConsoleUI {
         return matches;
     }
 
+    // Displays the selected card's full details between separator lines.
     private void showCardDetails(CardDetails selected) {
 
         IO.println();

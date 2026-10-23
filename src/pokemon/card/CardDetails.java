@@ -15,9 +15,11 @@ public class CardDetails {
 
     private Category category;
 
+    // Integer allows null when HP is missing or does not apply to the card.
     private Integer hp;
     private ArrayList<PokemonType> types;
     private EvolutionStage evolutionStage;
+    // A missing retreat cost is null; a cost of 0 means retreating is free.
     private Integer retreatCost;
     private String rarity;
 
@@ -131,6 +133,7 @@ public class CardDetails {
         return imagePath;
     }
 
+    // Formats all card details as a multiline string for console display.
     public String getFullDetails() {
         return "ID:              " + id + "\n"
                 + "Name:            " + name + "\n"

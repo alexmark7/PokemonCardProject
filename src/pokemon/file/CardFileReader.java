@@ -9,11 +9,12 @@ import pokemon.card.PokemonType;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 
 // Loads cards from a CSV file into a catalogue
 public class CardFileReader {
+
+    private static final String PLACEHOLDER_IMAGE_PATH = "pokemon-card-images/placeholder.svg";
 
     // Main calls this to load the cards
     public static CardCatalogue load(String filePath) {
@@ -45,40 +46,45 @@ public class CardFileReader {
                     continue;
                 }
 
-                // Split this row into its fields
-                List<String> values = parseCsvLine(line);
+                // Keep an empty image-path field so we can replace it with the placeholder.
+                String[] values = line.split(",", -1);
 
-                // We need 14 fields; the illustrator column is ignored
-                if (values.size() < 14) {
-                    IO.println("Invalid CSV at row " + (i + 1) + ": Expected 14 fields, found " + values.size());
+                // Each row must contain all 14 fields, including blank ones
+                if (values.length != 14) {
+                    IO.println("Invalid CSV at row " + (i + 1) + ": Expected 14 fields, found " + values.length);
                     skippedRows++;
                     continue;
                 }
 
                 // Check required fields
-                if (values.get(0).isBlank() || values.get(1).isBlank()) {
+                if (values[0].isBlank() || values[1].isBlank()) {
                     IO.println("Missing card ID or name at row: " + (i + 1));
                     skippedRows++;
                     continue;
                 }
 
+                String imagePath = values[13].trim();
+
+                if (imagePath.isBlank()) {
+                    imagePath = PLACEHOLDER_IMAGE_PATH;
+                }
+
                 // Make a card from this row
                 CardDetails card = new CardDetails(
-                        values.get(0),                                                                       // ID
-                        values.get(1),                                                                           // Name
-                        values.get(2),                                                                          // Number
-                        values.get(3),                                                                           // Set ID
-                        values.get(4),                                                                           // Set name
-                        values.get(5),                                                                           // Series
-                        Category.parse(values.get(6)),                                                           // Category
-                        parseNullableInteger(values.get(7), "HP", i + 1),                 // HP
-                        PokemonType.parseList(values.get(8)),                                                    // Types
-                        EvolutionStage.parse(values.get(9)),                                                       // Evolution stage
-                        parseNullableInteger(values.get(10), "Retreat cost", i + 1),      // Retreat cost
-                        values.get(11),                                                                         // Rarity
-                        values.get(12),                                                                        // Variants
-                        values.get(13)                                                                        // Image path
-                        // values.get(14) = illustrator, not loaded yet
+                        values[0],                                                // ID
+                        values[1],                                                // Name
+                        values[2],                                                // Number
+                        values[3],                                                // Set ID
+                        values[4],                                                // Set name
+                        values[5],                                                // Series
+                        Category.parse(values[6]),                                // Category
+                        parseNullableInteger(values[7], "HP", i + 1),              // HP
+                        PokemonType.parseList(values[8]),                         // Types
+                        EvolutionStage.parse(values[9]),                          // Evolution stage
+                        parseNullableInteger(values[10], "Retreat cost", i + 1),   // Retreat cost
+                        values[11],                                               // Rarity
+                        values[12],                                               // Variants
+                        imagePath                                                 // Image path
                 );
                 // Save it in the catalogue
                 catalogue.addCard(card);
@@ -121,44 +127,4 @@ public class CardFileReader {
         }
     }
 
-    // Splits a CSV row without splitting commas inside quotes
-    private static List<String> parseCsvLine(String line) {
-
-        List<String> values = new ArrayList<>();
-
-        StringBuilder current = new StringBuilder();
-
-        // Keep track of whether we're inside quotes
-        boolean insideQuotes = false;
-
-        for (int i = 0; i < line.length(); i++) {
-
-            char character = line.charAt(i);
-
-            if (character == '"') {
-
-                // Two quotes together mean one actual quote
-                if (insideQuotes && i + 1 < line.length() && line.charAt(i + 1) == '"') {
-                    current.append('"');
-                    i++;
-                } else {
-                    insideQuotes = !insideQuotes;
-                }
-
-            } else if (character == ',' && !insideQuotes) {
-
-                // Only split at commas outside quotes
-                values.add(current.toString());
-                current.setLength(0);
-
-            } else {
-                current.append(character);
-            }
-        }
-
-        // Add the last field too
-        values.add(current.toString());
-
-        return values;
-    }
 }

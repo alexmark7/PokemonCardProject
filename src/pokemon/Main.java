@@ -8,6 +8,7 @@ public class Main {
 
     static void main(String[] args) {
 
+        // This path is relative to the working directory, which should be the project root.
         CardCatalogue catalogue = CardFileReader.load("data/cards.csv");
 
         if (catalogue.size() == 0) {
@@ -15,7 +16,8 @@ public class Main {
             return;
         }
 
-        ConsoleUI console = new ConsoleUI(catalogue); // Creates new Object and passes "catalogue" into the object so it has the values.
+        // Give the console access to the loaded catalogue for searching and browsing.
+        ConsoleUI console = new ConsoleUI(catalogue);
 
         console.start();
     }
