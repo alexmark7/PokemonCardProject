@@ -2,7 +2,6 @@ package pokemon.collection;
 
 // A card's variant (printing).
 // Standard, Holo and Reverse Holo sort first in this order,
-// then the other variants alphabetically
 public enum Variant {
 
     STANDARD("Standard"),

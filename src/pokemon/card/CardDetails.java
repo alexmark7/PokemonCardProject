@@ -98,6 +98,10 @@ public class CardDetails {
     // Joins the type names for display, like "Fire, Water"
     public String getTypesText() {
 
+        if (types == null) {
+            return "N/A";
+        }
+
         String text = "";
 
         for (PokemonType type : types) {
@@ -106,7 +110,7 @@ public class CardDetails {
                 text += ", ";
             }
 
-            text += type;
+            text += displayValue(type);
         }
 
         return text;
@@ -135,20 +139,29 @@ public class CardDetails {
 
     // Formats all card details as a multiline string for console display.
     public String getFullDetails() {
-        return "ID:              " + id + "\n"
-                + "Name:            " + name + "\n"
-                + "Number:          " + number + "\n"
-                + "Set ID:          " + setId + "\n"
-                + "Set name:        " + setName + "\n"
-                + "Series:          " + series + "\n"
-                + "Category:        " + category + "\n"
-                + "HP:              " + hp + "\n"
+        return "ID:              " + displayValue(id) + "\n"
+                + "Name:            " + displayValue(name) + "\n"
+                + "Number:          " + displayValue(number) + "\n"
+                + "Set ID:          " + displayValue(setId) + "\n"
+                + "Set name:        " + displayValue(setName) + "\n"
+                + "Series:          " + displayValue(series) + "\n"
+                + "Category:        " + displayValue(category) + "\n"
+                + "HP:              " + displayValue(hp) + "\n"
                 + "Types:           " + getTypesText() + "\n"
-                + "Evolution stage: " + evolutionStage + "\n"
-                + "Retreat cost:    " + retreatCost + "\n"
-                + "Rarity:          " + rarity + "\n"
-                + "Variants:        " + variants + "\n"
-                + "Image path:      " + imagePath;
+                + "Evolution stage: " + displayValue(evolutionStage) + "\n"
+                + "Retreat cost:    " + displayValue(retreatCost) + "\n"
+                + "Rarity:          " + displayValue(rarity) + "\n"
+                + "Variants:        " + displayValue(variants) + "\n"
+                + "Image path:      " + displayValue(imagePath);
+    }
+
+    // Show missing values as N/A without changing the stored card information.
+    private String displayValue(Object value) {
+        if (value == null) {
+            return "N/A";
+        }
+
+        return value.toString();
     }
 
     @Override
