@@ -83,7 +83,7 @@ public class CardFileReader {
                         EvolutionStage.parse(values[9]),                          // Evolution stage
                         parseNullableInteger(values[10], "Retreat cost", i + 1),   // Retreat cost
                         values[11],                                               // Rarity
-                        values[12],                                               // Variants
+                        values[12].trim().equalsIgnoreCase("holo"),                // Holo; otherwise normal
                         imagePath                                                 // Image path
                 );
                 // Save it in the catalogue

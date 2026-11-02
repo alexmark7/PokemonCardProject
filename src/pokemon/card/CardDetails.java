@@ -23,7 +23,7 @@ public class CardDetails {
     private Integer retreatCost;
     private String rarity;
 
-    private String variants;
+    private boolean holo;
 
     private String imagePath;
 
@@ -40,7 +40,7 @@ public class CardDetails {
             EvolutionStage evolutionStage,
             Integer retreatCost,
             String rarity,
-            String variants,
+            boolean holo,
             String imagePath)
     {
         this.id = id;
@@ -55,7 +55,7 @@ public class CardDetails {
         this.evolutionStage = evolutionStage;
         this.retreatCost = retreatCost;
         this.rarity = rarity;
-        this.variants = variants;
+        this.holo = holo;
         this.imagePath = imagePath;
     }
 
@@ -128,8 +128,8 @@ public class CardDetails {
         return rarity;
     }
 
-    public String getVariants() {
-        return variants;
+    public boolean isHolo() {
+        return holo;
     }
 
 
@@ -151,7 +151,7 @@ public class CardDetails {
                 + "Evolution stage: " + displayValue(evolutionStage) + "\n"
                 + "Retreat cost:    " + displayValue(retreatCost) + "\n"
                 + "Rarity:          " + displayValue(rarity) + "\n"
-                + "Variants:        " + displayValue(variants) + "\n"
+                + "Variant:         " + (holo ? "Holo" : "Normal") + "\n"
                 + "Image path:      " + displayValue(imagePath);
     }
 
