@@ -16,7 +16,7 @@ public class CardFileReader {
 
     private static final String PLACEHOLDER_IMAGE_PATH = "pokemon-card-images/placeholder.svg";
 
-    // Main calls this to load the cards
+    // Main calls this to load the cards, returns CardCatalogue object
     public static CardCatalogue load(String filePath) {
 
         CardCatalogue catalogue = new CardCatalogue();
