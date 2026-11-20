@@ -2,7 +2,6 @@
   <configuration default="false" name="JavaFX Catalogue" type="Application" factoryName="Application">
     <option name="MAIN_CLASS_NAME" value="pokemon.Main" />
     <module name="PokemonProject" />
-    <option name="PROGRAM_PARAMETERS" value="--gui" />
     <option name="VM_PARAMETERS" value="--enable-native-access=javafx.graphics" />
     <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
     <method v="2">
