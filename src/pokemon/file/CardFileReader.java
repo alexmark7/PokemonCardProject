@@ -14,7 +14,7 @@ import java.util.List;
 // Loads cards from a CSV file into a catalogue
 public class CardFileReader {
 
-    private static final String PLACEHOLDER_IMAGE_PATH = "pokemon-card-images/placeholder.svg";
+    private static final String PLACEHOLDER_IMAGE_PATH = "pokemon-card-images/placeholder.jpg";
 
     // Main calls this to load the cards, returns CardCatalogue object
     public static CardCatalogue load(String filePath) {
