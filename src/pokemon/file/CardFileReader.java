@@ -14,7 +14,7 @@ import java.util.List;
 // Loads cards from a CSV file into a catalogue
 public class CardFileReader {
 
-    private static final String PLACEHOLDER_IMAGE_PATH = "pokemon-card-images/placeholder.jpg";
+    private static final String PLACEHOLDER_IMAGE_PATH = "data/pokemon-card-images/placeholder.jpg";
 
     public static CardCatalogue load(String filePath) {
 
@@ -66,6 +66,9 @@ public class CardFileReader {
 
                 if (imagePath.isBlank()) {
                     imagePath = PLACEHOLDER_IMAGE_PATH;
+                } else {
+                    imagePath = Paths.get(filePath).toAbsolutePath().getParent()
+                            .resolve(imagePath).toString();
                 }
 
                 // Make a card from this row
