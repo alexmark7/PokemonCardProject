@@ -173,11 +173,6 @@ public class JavaFXUI extends Application {
             return null;
         }
 
-        // For older CSVs with WebP paths, look for the converted JPG in the same folder.
-        if (filePath.toLowerCase(Locale.ROOT).endsWith(".webp")) {
-            filePath = filePath.substring(0, filePath.length() - ".webp".length()) + ".jpg";
-        }
-
         try {
             Image image = new Image(Path.of(filePath).toUri().toString());
             return image.isError() ? null : image;
