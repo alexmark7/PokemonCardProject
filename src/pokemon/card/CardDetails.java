@@ -137,7 +137,7 @@ public class CardDetails {
         return imagePath;
     }
 
-    // Formats all card details as a multiline string for console display.
+    // Formats all card details as a multiline string for display.
     public String getFullDetails() {
         return "ID:              " + displayValue(id) + "\n"
                 + "Name:            " + displayValue(name) + "\n"
