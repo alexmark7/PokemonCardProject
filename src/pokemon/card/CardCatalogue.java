@@ -3,6 +3,8 @@ package pokemon.card;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 // Holds all the cards we loaded
@@ -48,31 +50,53 @@ public class CardCatalogue {
         return expansions;
     }
 
-    // Searches card names, the whole name or part of it
-    public ArrayList<CardDetails> findByName(String search) {
+    public static ArrayList<CardDetails> sortCards(
+            List<CardDetails> cards,
+            String sortBy,
+            boolean ascending
+    ) {
+        ArrayList<CardDetails> results = new ArrayList<>(cards);
 
-        ArrayList<CardDetails> results = new ArrayList<>();
+        Comparator<CardDetails> comparator = switch (sortBy.toLowerCase(Locale.ROOT)) {
+            case "name" ->
+                    Comparator.comparing(CardDetails::getName,
+                            Comparator.nullsFirst(Comparator.naturalOrder()));
 
-        for (CardDetails card : cards) {
+            case "stage" ->
+                    Comparator.comparing(CardDetails::getEvolutionStage,
+                            Comparator.nullsFirst(Comparator.naturalOrder()));
 
-            if (card.getName().toLowerCase().contains(search.toLowerCase())) {
-                results.add(card);
-            }
+            case "variant" ->
+                    Comparator.comparing(card -> card.isHolo() ? "Holo" : "Normal");
+
+            case "hp" ->
+                    Comparator.comparing(CardDetails::getHp,
+                            Comparator.nullsFirst(Comparator.naturalOrder()));
+
+            case "retreatcost" ->
+                    Comparator.comparing(CardDetails::getRetreatCost,
+                            Comparator.nullsFirst(Comparator.naturalOrder()));
+
+            case "type" ->
+                    Comparator.comparing(CardDetails::getTypesText);
+
+            case "expansion" ->
+                    Comparator.comparing(CardDetails::getSetName,
+                            Comparator.nullsFirst(Comparator.naturalOrder()));
+
+            case "set" ->
+                    Comparator.comparing(CardDetails::getSetId,
+                            Comparator.nullsFirst(Comparator.naturalOrder()));
+
+            default ->
+                    throw new IllegalArgumentException("Invalid sorting option");
+        };
+
+        if (!ascending) {
+            comparator = comparator.reversed();
         }
-        return results;
-    }
 
-    // Returns every card in one expansion
-    public ArrayList<CardDetails> findByExpansion(String setId) {
-
-        ArrayList<CardDetails> results = new ArrayList<>();
-
-        for (CardDetails card : cards) {
-
-            if (card.getSetId().equals(setId)) {
-                results.add(card);
-            }
-        }
+        results.sort(comparator);
         return results;
     }
 

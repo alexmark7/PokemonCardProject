@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
+import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -19,17 +20,18 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.Screen;
 import pokemon.card.CardCatalogue;
 import pokemon.card.CardDetails;
+import pokemon.card.CardFilter;
 import pokemon.card.Expansion;
 import pokemon.file.CardFileReader;
 
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
-import java.util.Locale;
 
 public class JavaFXUI extends Application {
 
@@ -98,6 +100,15 @@ public class JavaFXUI extends Application {
         cardImage.setPreserveRatio(true);
         cardImage.setSmooth(true);
         cardImage.setAccessibleText("Card image");
+
+        // Rounded image corners
+        // Match the clip to the displayed image so the corners follow it as it resizes.
+        Rectangle imageClip = new Rectangle();
+        imageClip.setArcWidth(38);
+        imageClip.setArcHeight(38);
+        imageClip.widthProperty().bind(cardImage.layoutBoundsProperty().map(Bounds::getWidth));
+        imageClip.heightProperty().bind(cardImage.layoutBoundsProperty().map(Bounds::getHeight));
+        cardImage.setClip(imageClip);
 
         Label imagePlaceholder = new Label("Select a card to view its image.");
         imagePlaceholder.setWrapText(true);
@@ -174,11 +185,12 @@ public class JavaFXUI extends Application {
             TextArea details
     ) {
 
-        String search = searchText.trim().toLowerCase(Locale.ROOT);
-        results.setPredicate(
-                card -> card.getName().toLowerCase(Locale.ROOT).contains(search)
-                        && (expansion == null || expansion.getId().equals(card.getSetId()))
-        );
+        CardFilter filter = new CardFilter();
+        filter.setName(searchText.trim());
+        if (expansion != null) {
+            filter.getSets().add(expansion.getId());
+        }
+        results.setPredicate(filter::matches);
 
         resultCount.setText(results.size() + " of " + catalogue.size() + " cards");
         cardList.getSelectionModel().clearSelection();
